@@ -29,6 +29,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+namespace app\com\clamavscan;
+
 class Clamav {
     private $clamd_sock = "/var/run/clamav/clamd.sock";
     private $clamd_sock_len = 20000;
@@ -57,13 +59,13 @@ class Clamav {
     private function socket() {
         if(!empty($this->clamd_ip) && !empty($this->clamd_port)) {
             // Attempt to use a network based socket
-            $socket = socket_create(AF_INET, SOCK_STREAM, 0);
+            $socket = \socket_create(AF_INET, SOCK_STREAM, 0);
             if(socket_connect($socket, $this->clamd_ip, $this->clamd_port)) {
                 return $socket;
             }
         } else {
             // By default we just use the local socket
-            $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
+            $socket = \socket_create(AF_UNIX, SOCK_STREAM, 0);
             if(socket_connect($socket, $this->clamd_sock)) {
                 return $socket;
             }
